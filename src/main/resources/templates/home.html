@@ -82,17 +82,17 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td class="tg-0lax"></td>
-        <td class="tg-0lax"></td>
-        <td class="tg-0lax"></td>
-        <td class="tg-0lax"></td>
-        <td class="tg-0lax"></td>
-        <td class="tg-0lax"></td>
-        <td class="tg-0lax"></td>
-        <td class="tg-0lax"></td>
-        <td class="tg-0lax"></td>
-    </tr>
+        <tr th:each="employee : ${employees}">
+            <td class="tg-0lax"><label><input type="checkbox" name="c1" value="c1"></label></td>
+            <td th:text="${employee.fname}" class="tg-0lax"></td>
+            <td th:text="${employee.ssn}" class="tg-0lax"></td>
+            <td th:text="${employee.bdate}" class="tg-0lax"></td>
+            <td th:text="${employee.address}" class="tg-0lax"></td>
+            <td th:text="${employee.sex}" class="tg-0lax"></td>
+            <td th:text="${employee.salary}" class="tg-0lax"></td>
+            <td th:text="${employee.supervisor_name}" class="tg-0lax"></td>
+            <td th:text="${employee.department_name}" class="tg-0lax"></td>
+        </tr>
     </tbody>
 </table>
 <br>

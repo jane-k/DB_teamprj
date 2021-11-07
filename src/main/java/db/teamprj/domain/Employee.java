@@ -2,29 +2,16 @@ package db.teamprj.domain;
 
 public class Employee {
 
-    private String fname;
-    private String minit;
-    private String lname;
-    private String ssn;
-    private String bdate;
-    private String address;
-    private String sex;
-    private String salary;
-    private String super_ssn;
-    private String dno;
-
-    public Employee(String fname, String minit, String lname, String ssn, String bdate, String address, String sex, String salary, String super_ssn, String dno) {
-        this.fname = fname;
-        this.minit = minit;
-        this.lname = lname;
-        this.ssn = ssn;
-        this.bdate = bdate;
-        this.address = address;
-        this.sex = sex;
-        this.salary = salary;
-        this.super_ssn = super_ssn;
-        this.dno = dno;
-    }
+    String fname;
+    String minit;
+    String lname;
+    String ssn;
+    String bdate;
+    String address;
+    String sex;
+    String salary;
+    String supervisor_name;
+    String department_name;
 
     public String getFname() {
         return fname;
@@ -90,19 +77,32 @@ public class Employee {
         this.salary = salary;
     }
 
-    public String getSuper_ssn() {
-        return super_ssn;
+    public String getSupervisor_name() {
+        return supervisor_name;
     }
 
-    public void setSuper_ssn(String super_ssn) {
-        this.super_ssn = super_ssn;
+    public void setSupervisor_name(String supervisor_name) {
+        this.supervisor_name = supervisor_name;
     }
 
-    public String getDno() {
-        return dno;
+    public String getDepartment_name() {
+        return department_name;
     }
 
-    public void setDno(String dno) {
-        this.dno = dno;
+    public void setDepartment_name(String department_name) {
+        this.department_name = department_name;
+    }
+
+    public Employee(String fname, String minit, String lname, String ssn, String bdate, String address, String sex, String salary, String supervisor_name, String department_name) {
+        this.fname = fname;
+        this.minit = minit;
+        this.lname = lname;
+        this.ssn = ssn;
+        this.bdate = bdate;
+        this.address = address;
+        this.sex = sex;
+        this.salary = salary;
+        this.supervisor_name = supervisor_name;
+        this.department_name = department_name;
     }
 }
