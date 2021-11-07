@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>DB project</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="css/home.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+
+        button {
+            /* 생략 */
+            margin: 0;
+            padding: 0.5rem 1rem;
+
+            font-family: "Noto Sans KR", sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            text-align: center;
+            text-decoration: none;
+
+            display: inline-block;
+            width: auto;
+
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover{color:#fff;}
+
+        .tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
+        .tg td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+            font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg th{background-color:#f0f0f0;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+            font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg .tg-0lax{text-align:left;vertical-align:top}
+
+    </style>
+</head>
+<body>
+<p>
+    <select>
+        <option value="all" selected>전체</option>
+        <option value="department">부서</option>
+        <option value="gender">성별</option>
+        <option value="pay">연봉</option>
+        <option value="birth">생일</option>
+        <option value="decent">부하직원</option>
+    </select>
+    <select>
+        <option value="all" selected>전체</option>
+        <option value="department">부서</option>
+        <option value="gender">성별</option>
+        <option value="pay">연봉</option>
+        <option value="birth">생일</option>
+        <option value="decent">부하직원</option>
+    </select>
+</p>
+<p>
+    검색 항목
+    <label><input type="checkbox" name="search" value="Name"> Name</label>
+    <label><input type="checkbox" name="search" value="Ssn"> Ssn</label>
+    <label><input type="checkbox" name="search" value="Bdate"> Bdate</label>
+    <label><input type="checkbox" name="search" value="Address"> Address</label>
+    <label><input type="checkbox" name="search" value="Sex"> Sex</label>
+    <label><input type="checkbox" name="search" value="Salary"> Salary</label>
+    <label><input type="checkbox" name="search" value="Supervisor"> Supervisor</label>
+    <label><input type="checkbox" name="search" value="Department"> Department</label>
+    <button>검색</button>
+</p>
+
+<table class="tg">
+    <thead>
+    <tr>
+        <th class="tg-0lax">선택</th>
+        <th class="tg-0lax">NAME</th>
+        <th class="tg-0lax">SSN</th>
+        <th class="tg-0lax">BDATE</th>
+        <th class="tg-0lax">ADDRESS</th>
+        <th class="tg-0lax">SEX</th>
+        <th class="tg-0lax">SALARY</th>
+        <th class="tg-0lax">SUPERVISOR</th>
+        <th class="tg-0lax">DEPARTMENT</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="tg-0lax"></td>
+        <td class="tg-0lax"></td>
+        <td class="tg-0lax"></td>
+        <td class="tg-0lax"></td>
+        <td class="tg-0lax"></td>
+        <td class="tg-0lax"></td>
+        <td class="tg-0lax"></td>
+        <td class="tg-0lax"></td>
+        <td class="tg-0lax"></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+선택한 직원 : <span th:text="${person}"></span>
+<p>
+인원 수 : <span th:text="${person_num}    "></span>
+수정 :
+<select>style="background-color: red"
+    <option value="all" selected>전체</option>
+    <option value="department">부서</option>
+    <option value="gender">성별</option>
+    <option value="pay">연봉</option>
+    <option value="birth">생일</option>
+    <option value="decent">부하직원</option>
+</select>
+<input type="text" id="name" name="name" required>
+<button style="background-color: lightskyblue">UPDATE</button>
+<button style="background-color: palevioletred">선택한 데이터 삭제</button>
+</p>
+
+</body>
+</html>
