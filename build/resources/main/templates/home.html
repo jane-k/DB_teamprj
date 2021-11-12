@@ -4,12 +4,15 @@
     <title>DB project</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="css/home.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
 
         button {
             /* 생략 */
-            margin: 0;
+            margin: 5px;
             padding: 0.5rem 1rem;
 
             font-family: "Noto Sans KR", sans-serif;
@@ -25,6 +28,10 @@
             border-radius: 4px;
         }
         button:hover{color:#fff;}
+        form{display: block}
+
+        p{display: block}
+        table{display: block; width: 100%}
 
         .tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
         .tg td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
@@ -34,83 +41,95 @@
         .tg .tg-0lax{text-align:left;vertical-align:top}
 
     </style>
+
+    <script>
+        function submit2(frm) {
+            frm.action='/update';
+            frm.submit();
+            return true;
+        }
+        function submit3(frm) {
+            frm.action='//insert_btn';
+            frm.submit();
+            return true;
+        }
+    </script>
 </head>
 <body>
-<p>
-    <select>
-        <option value="all" selected>전체</option>
-        <option value="department">부서</option>
-        <option value="gender">성별</option>
-        <option value="pay">연봉</option>
-        <option value="birth">생일</option>
-        <option value="decent">부하직원</option>
-    </select>
-    <select>
-        <option value="all" selected>전체</option>
-        <option value="department">부서</option>
-        <option value="gender">성별</option>
-        <option value="pay">연봉</option>
-        <option value="birth">생일</option>
-        <option value="decent">부하직원</option>
-    </select>
-</p>
-<p>
-    검색 항목
-    <label><input type="checkbox" name="search" value="Name"> Name</label>
-    <label><input type="checkbox" name="search" value="Ssn"> Ssn</label>
-    <label><input type="checkbox" name="search" value="Bdate"> Bdate</label>
-    <label><input type="checkbox" name="search" value="Address"> Address</label>
-    <label><input type="checkbox" name="search" value="Sex"> Sex</label>
-    <label><input type="checkbox" name="search" value="Salary"> Salary</label>
-    <label><input type="checkbox" name="search" value="Supervisor"> Supervisor</label>
-    <label><input type="checkbox" name="search" value="Department"> Department</label>
-    <button>검색</button>
-</p>
 
+<form role="form" action="/" id="form" method="post">
+    <p>
+        <select id="root_select" name="root_select" class="form-control">
+            <option value="all" selected>전체</option>
+            <option value="dname">부서</option>
+            <option value="sex">성별</option>
+            <option value="salary">연봉</option>
+            <option value="bdate">생일</option>
+            <option value="descent">부하직원</option>
+        </select>
+        <input type="text" id="input_value" name="input_value" class="form-control">
+    </p>
+    <p>
+        검색 항목
+        <label><input type="checkbox" name="name" value="Name"> Name</label>
+        <label><input type="checkbox" name="ssn" value="Ssn"> Ssn</label>
+        <label><input type="checkbox" name="bdate" value="Bdate"> Bdate</label>
+        <label><input type="checkbox" name="address" value="Address"> Address</label>
+        <label><input type="checkbox" name="sex" value="Sex"> Sex</label>
+        <label><input type="checkbox" name="salary" value="Salary"> Salary</label>
+        <label><input type="checkbox" name="supervisor_name" value="Supervisor_name"> Supervisor</label>
+        <label><input type="checkbox" name="department_name" value="Department_name"> Department</label>
+        <button type="submit">검색</button>
+    </p>
+</form>
+<form role="form" action="/delete" name="delete" method="post">
 <table class="tg">
     <thead>
     <tr>
+    <tr>
         <th class="tg-0lax">선택</th>
-        <th class="tg-0lax">NAME</th>
-        <th class="tg-0lax">SSN</th>
-        <th class="tg-0lax">BDATE</th>
-        <th class="tg-0lax">ADDRESS</th>
-        <th class="tg-0lax">SEX</th>
-        <th class="tg-0lax">SALARY</th>
-        <th class="tg-0lax">SUPERVISOR</th>
-        <th class="tg-0lax">DEPARTMENT</th>
+        <th th:if="${b_name == true}" class="tg-0lax">NAME</th>
+        <th th:if="${b_ssn == true}" class="tg-0lax">SSN</th>
+        <th th:if="${b_bdate == true}" class="tg-0lax">BDATE</th>
+        <th th:if="${b_address == true}" class="tg-0lax">ADDRESS</th>
+        <th th:if="${b_sex == true}" class="tg-0lax">SEX</th>
+        <th th:if="${b_salary == true}" class="tg-0lax">SALARY</th>
+        <th th:if="${b_supervisor_name == true}" class="tg-0lax">SUPERVISOR</th>
+        <th th:if="${b_department_name == true}" class="tg-0lax">DEPARTMENT</th>
     </tr>
     </thead>
     <tbody>
-        <tr th:each="employee : ${employees}">
-            <td class="tg-0lax"><label><input type="checkbox" name="c1" value="c1"></label></td>
-            <td th:text="${employee.fname}" class="tg-0lax"></td>
-            <td th:text="${employee.ssn}" class="tg-0lax"></td>
-            <td th:text="${employee.bdate}" class="tg-0lax"></td>
-            <td th:text="${employee.address}" class="tg-0lax"></td>
-            <td th:text="${employee.sex}" class="tg-0lax"></td>
-            <td th:text="${employee.salary}" class="tg-0lax"></td>
-            <td th:text="${employee.supervisor_name}" class="tg-0lax"></td>
-            <td th:text="${employee.department_name}" class="tg-0lax"></td>
+        <tr th:each="employee : ${employees}" th:name="delete" th:value="delete">
+            <td class="tg-0lax"><input type="checkbox" name="check" th:value="${employee.ssn}"></td>
+            <td th:if="${employee.containsKey('name') == true}" th:text="${employee.name}" th:name="name" th:value="${employee.name}" class="tg-0lax"></td>
+            <td th:if="${employee.containsKey('ssn') == true}" th:text="${employee.ssn}" th:name="ssn" th:value="ssn" class="tg-0lax" value="ssn" id="ssn"></td>
+            <td th:if="${employee.containsKey('bdate') == true}" th:text="${employee.bdate}" th:name="bdate" th:value="${employee.bdate}" class="tg-0lax"></td>
+            <td th:if="${employee.containsKey('address') == true}" th:text="${employee.address}" th:name="address" th:value="${employee.address}" class="tg-0lax"></td>
+            <td th:if="${employee.containsKey('sex') == true}" th:text="${employee.sex}" th:name="sex" th:value="${employee.sex}" class="tg-0lax"></td>
+            <td th:if="${employee.containsKey('salary') == true}" th:text="${employee.salary}" th:name="salary" th:value="${employee.salary}" class="tg-0lax"></td>
+            <td th:if="${employee.containsKey('supervisor_name') == true}" th:text="${employee.supervisor_name}" th:name="supervisor_name" th:value="${employee.supervisor_name}" class="tg-0lax"></td>
+            <td th:if="${employee.containsKey('department_name') == true}" th:text="${employee.department_name}" th:name="department_name" th:value="${employee.department_name}" class="tg-0lax"></td>
         </tr>
     </tbody>
 </table>
-<br>
-선택한 직원 : <span th:text="${person}"></span>
 <p>
-인원 수 : <span th:text="${person_num}    "></span>
-수정 :
-<select>style="background-color: red"
-    <option value="all" selected>전체</option>
-    <option value="department">부서</option>
-    <option value="gender">성별</option>
-    <option value="pay">연봉</option>
-    <option value="birth">생일</option>
-    <option value="decent">부하직원</option>
-</select>
-<input type="text" id="name" name="name" required>
-<button style="background-color: lightskyblue">UPDATE</button>
-<button style="background-color: palevioletred">선택한 데이터 삭제</button>
+인원 수 : <span th:text="${employee_num}"></span>
+
+
+    <select name="update_list">
+        <option value="all" selected>전체</option>
+        <option value="dname">부서</option>
+        <option value="sex">성별</option>
+        <option value="salery">연봉</option>
+        <option value="bdate">생일</option>
+        <option value="descent">부하직원</option>
+    </select>
+    <input type="text" id="name" name="update_name">
+    <button style="background-color: lightskyblue" onclick='return submit2(this.form);'>수정</button>
+    <button style="background-color: lightcyan" onclick='return submit3(this.form);'>추가</button>
+    <button style="background-color: palevioletred">선택한 데이터 삭제</button>
+</form>
+
 </p>
 
 </body>

@@ -1,15 +1,32 @@
-package db.teamprj.domain;
+package db.teamprj.dto;
 
-public class Employee {
+public class FormDto {
+    private String root_select;
+    private String input_value;
+    private String name;
+    private String ssn;
+    private String bdate;
+    private String address;
+    private String sex;
+    private String salary;
+    private String supervisor_name;
+    private String department_name;
 
-    String name;
-    String ssn;
-    String bdate;
-    String address;
-    String sex;
-    String salary;
-    String supervisor_name;
-    String department_name;
+    public String getRoot_select() {
+        return root_select;
+    }
+
+    public void setRoot_select(String root_select) {
+        this.root_select = root_select;
+    }
+
+    public String getInput_value() {
+        return input_value;
+    }
+
+    public void setInput_value(String input_value) {
+        this.input_value = input_value;
+    }
 
     public String getName() {
         return name;
@@ -75,7 +92,9 @@ public class Employee {
         this.department_name = department_name;
     }
 
-    public Employee(String name, String ssn, String bdate, String address, String sex, String salary, String supervisor_name, String department_name) {
+    public FormDto(String root_select, String input_value, String name, String ssn, String bdate, String address, String sex, String salary, String supervisor_name, String department_name) {
+        this.root_select = root_select;
+        this.input_value = input_value;
         this.name = name;
         this.ssn = ssn;
         this.bdate = bdate;
