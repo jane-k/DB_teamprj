@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,11 @@ public class HomeController {
             b_address = true, b_sex = true, b_salary = true,
             b_supervisor_name = true, b_department_name = true;
 
+    private final String dbaccount = "jiin3909";
+    private final String pwd = "130613";
+    private final String dbname = "mydb";
+    private final String url = "jdbc:mysql://localhost:3306/"+dbname+"?serverTimezone=UTC";
+
     @GetMapping("/")
     public String home(Model model) throws SQLException {
 
@@ -30,12 +36,6 @@ public class HomeController {
         String fname, minit, lname, ssn, bdate, address, sex, salary, supervisor_name, department_name;
 
         Connection con;
-
-        String dbaccount = "root";
-        String pwd = "7651";
-        String dbname = "jdbcTest";
-
-        String url = "jdbc:mysql://localhost:3306/"+dbname+"?serverTimezone=UTC";
         con = DriverManager.getConnection(url, dbaccount, pwd);
 
         String SQL = "SELECT e.Fname, e.Minit, e.Lname, e.Ssn, e.Bdate, e.Address, e.Sex, e.Salary, s.Fname AS Supervisor_name, Dname " +
@@ -92,11 +92,18 @@ public class HomeController {
 
     @PostMapping("/")
     public String permit(Model model, FormDto formDto) throws SQLException {
+        b_name = false; b_ssn = false; b_bdate = false;
+        b_address = false; b_sex = false; b_salary = false;
+        b_supervisor_name = false; b_department_name = false;
+
+        ArrayList<HashMap<String, String>> tmp = emps;
+
         System.out.println("test = " + formDto.getRoot_select());
         System.out.println("test = " + formDto.getInput_value());
         emps = new ArrayList<HashMap<String, String>>();
         ArrayList<String> attribute = new ArrayList<String>();
         String condition = "";
+
 
         String fname, minit, lname, ssn, bdate, address, sex, salary, supervisor_name, department_name;
 
@@ -164,12 +171,6 @@ public class HomeController {
         }
 
         Connection con;
-
-        String dbaccount = "root";
-        String pwd = "7651";
-        String dbname = "jdbcTest";
-
-        String url = "jdbc:mysql://localhost:3306/"+dbname+"?serverTimezone=UTC";
         con = DriverManager.getConnection(url, dbaccount, pwd);
 
         Statement stmt = con.createStatement();
@@ -227,11 +228,14 @@ public class HomeController {
         model.addAttribute("employees", emps);
         model.addAttribute("employee_num", emps.size());
 
+
+
         model.addAttribute("b_name", b_name);
         model.addAttribute("b_ssn", b_ssn);
         model.addAttribute("b_bdate", b_bdate);
         model.addAttribute("b_address", b_address);
         model.addAttribute("b_sex", b_sex);
+        model.addAttribute("tmp", tmp);
         model.addAttribute("b_salary", b_salary);
         model.addAttribute("b_supervisor_name", b_supervisor_name);
         model.addAttribute("b_department_name", b_department_name);
@@ -240,7 +244,7 @@ public class HomeController {
     }
 
     @PostMapping("/update")
-    public String update(Model model, @ModelAttribute("delete")DeleteDto dto, String update_list, String update_name){
+    public String update(Model model, @ModelAttribute("delete")DeleteDto dto, String update_list, String update_name) throws SQLException {
 
         //여기 체크된 애들 ssn 들어있음!
         System.out.println(dto.getCheck());
@@ -248,6 +252,44 @@ public class HomeController {
         //여기 업데이트 항목, 수정값
         System.out.println("test = " + update_list);
         System.out.println("test = " + update_name);
+
+        String ssn = "";
+        ssn = dto.getCheck().get(0);
+        String value = "";
+        String table = "";
+
+        if(Objects.equals(update_list, "address")){
+            table = "EMPLOYEE";
+            value = "Address = \"" + update_name + "\"";
+        }
+        else if(Objects.equals(update_list, "sex")){
+            value = "Sex = \"" + update_name + "\"";
+            table = "EMPLOYEE";
+        }
+        else if(Objects.equals(update_list, "salary")){
+            value = "Salary = " + update_name;
+            table = "EMPLOYEE";
+        }
+        else if(Objects.equals(update_list, "super_ssn")){
+            value = "Super_ssn = \"" + update_name + "\"";
+            table = "EMPLOYEE";
+        }
+        else if(Objects.equals(update_list, "dname")){
+            value = "Dno = (SELECT Dnumber FROM DEPARTMENT WHERE Dname = \"" + update_name + "\")";
+            table = "EMPLOYEE";
+        }
+
+        Connection con;
+        con = DriverManager.getConnection(url, dbaccount, pwd);
+
+        Statement stmt = con.createStatement();
+        String SQL = "UPDATE "+table+" SET "+value+" WHERE Ssn = \""+ssn+"\";";
+
+        System.out.println(SQL);
+
+        stmt.executeUpdate(SQL);
+
+        home(model);
 
         model.addAttribute("employees", emps);
         model.addAttribute("employee_num", emps.size());
@@ -264,10 +306,50 @@ public class HomeController {
     }
 
     @PostMapping("/delete")
-    public String delete(Model model, @ModelAttribute("delete")DeleteDto deleteDto){
-
+    public String delete(Model model, @ModelAttribute("delete")DeleteDto deleteDto) throws SQLException {
         //여기 체크된 애들 ssn 들어있음!
         System.out.println(deleteDto.getCheck());
+
+        ArrayList<String> ssn = new ArrayList<String>();;
+        ssn = deleteDto.getCheck();
+
+
+        Connection con;
+        con = DriverManager.getConnection(url, dbaccount, pwd);
+
+        String query = "";
+
+        for (int i = 0; i < ssn.size(); i++) {
+            if(i == 0){
+                query = query + ssn.get(i);
+            }
+            else{
+                query = query + ", ";
+                query = query + ssn.get(i);
+            }
+        }
+
+        String stmt = "DELETE from EMPLOYEE WHERE Ssn = ?";
+        PreparedStatement p = con.prepareStatement(stmt);
+
+        p.clearParameters();
+
+        for(int i = 0; i < ssn.size(); i++){
+            p.setString(i + 1, ssn.get(i));
+        }
+
+        p.executeUpdate();
+
+        for (String s : ssn) {
+            //해당 ssn 삭제하기
+            for (int j = 0; j < emps.size(); j++) {
+                if (emps.get(j).get("ssn").equals(s)) {
+                    emps.remove(j);
+                    System.out.println("Isdelete: " + s);
+                    break;
+                }
+            }
+        }
 
 
         model.addAttribute("employees", emps);
@@ -285,9 +367,26 @@ public class HomeController {
     }
 
     @PostMapping("/insert")
-    public String insert(Model model, @ModelAttribute("insert")InsertDto insertDto){
+    public String insert(Model model, @ModelAttribute("insert")InsertDto insertDto) throws SQLException{
         //여기 추가한 친구 정보들 들어있음!
         System.out.println(insertDto.toString());
+
+        Connection con;
+        con = DriverManager.getConnection(url, dbaccount, pwd);
+
+        String value;
+        value = insertDto.toString();
+
+        String SQL = "INSERT INTO EMPLOYEE VALUES " + value + ";";
+        Statement stmt = con.createStatement();
+        stmt.executeUpdate(SQL);
+
+
+
+        con.close();
+        stmt.close();
+
+        home(model);
 
         model.addAttribute("employees", emps);
         model.addAttribute("employee_num", emps.size());

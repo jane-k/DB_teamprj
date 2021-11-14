@@ -61,7 +61,7 @@
     <p>
         <select id="root_select" name="root_select" class="form-control">
             <option value="all" selected>전체</option>
-            <option value="dname">부서</option>
+            <option value="dname">부서명</option>
             <option value="sex">성별</option>
             <option value="salary">연봉</option>
             <option value="bdate">생일</option>
@@ -117,12 +117,12 @@
 
 
     <select name="update_list">
-        <option value="all" selected>전체</option>
-        <option value="dname">부서</option>
+        <option value="option" selected>선택</option>
+        <option value="address">주소</option>
         <option value="sex">성별</option>
-        <option value="salery">연봉</option>
-        <option value="bdate">생일</option>
-        <option value="descent">부하직원</option>
+        <option value="salary">연봉</option>
+        <option value="super_ssn">상사</option>
+        <option value="dname">부서명</option>
     </select>
     <input type="text" id="name" name="update_name">
     <button style="background-color: lightskyblue" onclick='return submit2(this.form);'>수정</button>
