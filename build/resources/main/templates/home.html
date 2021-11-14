@@ -53,6 +53,15 @@
             frm.submit();
             return true;
         }
+        function submit4(frm) {
+            let result = confirm("필터링 조건에 ssn이 포함되어 있습니까?");
+            if(result) {
+                frm.action = '/delete';
+                frm.submit();
+                return true;
+            }
+            else return false;
+        }
     </script>
 </head>
 <body>
@@ -61,7 +70,7 @@
     <p>
         <select id="root_select" name="root_select" class="form-control">
             <option value="all" selected>전체</option>
-            <option value="dname">부서</option>
+            <option value="dname">부서명</option>
             <option value="sex">성별</option>
             <option value="salary">연봉</option>
             <option value="bdate">생일</option>
@@ -100,7 +109,8 @@
     </thead>
     <tbody>
         <tr th:each="employee : ${employees}" th:name="delete" th:value="delete">
-            <td class="tg-0lax"><input type="checkbox" name="check" th:value="${employee.ssn}"></td>
+            <td th:if="${employee.containsKey('ssn') == true}" class="tg-0lax"><input type="checkbox" name="check" th:value="${employee.ssn}"></td>
+            <td th:unless="${employee.containsKey('ssn') == true}" class="tg-0lax"><input type="checkbox" name="check" th:value="alarm"></td>
             <td th:if="${employee.containsKey('name') == true}" th:text="${employee.name}" th:name="name" th:value="${employee.name}" class="tg-0lax"></td>
             <td th:if="${employee.containsKey('ssn') == true}" th:text="${employee.ssn}" th:name="ssn" th:value="ssn" class="tg-0lax" value="ssn" id="ssn"></td>
             <td th:if="${employee.containsKey('bdate') == true}" th:text="${employee.bdate}" th:name="bdate" th:value="${employee.bdate}" class="tg-0lax"></td>
@@ -117,17 +127,17 @@
 
 
     <select name="update_list">
-        <option value="all" selected>전체</option>
-        <option value="dname">부서</option>
+        <option value="option" selected>선택</option>
+        <option value="address">주소</option>
         <option value="sex">성별</option>
-        <option value="salery">연봉</option>
-        <option value="bdate">생일</option>
-        <option value="descent">부하직원</option>
+        <option value="salary">연봉</option>
+        <option value="super_ssn">상사</option>
+        <option value="dname">부서명</option>
     </select>
     <input type="text" id="name" name="update_name">
     <button style="background-color: lightskyblue" onclick='return submit2(this.form);'>수정</button>
     <button style="background-color: lightcyan" onclick='return submit3(this.form);'>추가</button>
-    <button style="background-color: palevioletred">선택한 데이터 삭제</button>
+    <button style="background-color: palevioletred" onclick='return submit4(this.form);'>선택한 데이터 삭제</button>
 </form>
 
 </p>

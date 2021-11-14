@@ -107,17 +107,17 @@ public class InsertDto {
 
     @Override
     public String toString() {
-        return "InsertDto{" +
-                "fname='" + fname + '\'' +
-                ", minit='" + minit + '\'' +
-                ", lname='" + lname + '\'' +
-                ", ssn='" + ssn + '\'' +
-                ", bdate='" + bdate + '\'' +
-                ", address='" + address + '\'' +
-                ", sex='" + sex + '\'' +
-                ", salary='" + salary + '\'' +
-                ", supervisor_ssn='" + supervisor_ssn + '\'' +
-                ", dno='" + dno + '\'' +
-                '}';
+        return "(" +
+                "'" + fname + '\'' +
+                ",'" + minit + '\'' +
+                ",'" + lname + '\'' +
+                ",'" + ssn + '\'' +
+                ",'" + bdate + '\'' +
+                ",'" + address + '\'' +
+                ",'" + sex + '\'' +
+                "," + salary  +
+                ",'" + supervisor_ssn + '\'' +
+                "," + dno +
+                ')';
     }
 }
