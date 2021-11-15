@@ -69,7 +69,6 @@ public class HomeController {
             emp.put("supervisor_name", supervisor_name);
             emp.put("department_name", department_name);
             emps.add(emp);
-            System.out.println(fname+" "+minit+" "+lname+" "+ssn+" "+bdate+" "+address+" "+sex+" "+salary+" "+supervisor_name+" "+department_name);
         }
         con.close();
         stmt.close();
@@ -98,8 +97,6 @@ public class HomeController {
 
         ArrayList<HashMap<String, String>> tmp = emps;
 
-        System.out.println("test = " + formDto.getRoot_select());
-        System.out.println("test = " + formDto.getInput_value());
         emps = new ArrayList<HashMap<String, String>>();
         ArrayList<String> attribute = new ArrayList<String>();
         String condition = "";
@@ -108,7 +105,6 @@ public class HomeController {
         String fname, minit, lname, ssn, bdate, address, sex, salary, supervisor_name, department_name;
 
         if(Objects.equals(formDto.getRoot_select(), "dname")){
-            System.out.println(formDto.getRoot_select());
             condition = "Dname = \"" + formDto.getInput_value() + "\"";
         }
         else if(Objects.equals(formDto.getRoot_select(), "sex")){
@@ -123,8 +119,6 @@ public class HomeController {
         else if(Objects.equals(formDto.getRoot_select(), "descent")){
             condition = "s.Fname = \"" + formDto.getInput_value() + "\"";
         }
-
-        System.out.println(condition);
 
         if(formDto.getName()!= null){
             attribute.add("e.Fname, e.Minit, e.Lname");
@@ -181,8 +175,6 @@ public class HomeController {
                 "LEFT OUTER JOIN Department " +
                 "ON e.Dno = Dnumber WHERE "+condition+";";
 
-        System.out.println(SQL);
-
         ResultSet result = stmt.executeQuery(SQL);
 
         while(result.next()) {
@@ -228,8 +220,6 @@ public class HomeController {
         model.addAttribute("employees", emps);
         model.addAttribute("employee_num", emps.size());
 
-
-
         model.addAttribute("b_name", b_name);
         model.addAttribute("b_ssn", b_ssn);
         model.addAttribute("b_bdate", b_bdate);
@@ -245,13 +235,6 @@ public class HomeController {
 
     @PostMapping("/update")
     public String update(Model model, @ModelAttribute("delete")DeleteDto dto, String update_list, String update_name) throws SQLException {
-
-        //여기 체크된 애들 ssn 들어있음!
-        System.out.println(dto.getCheck());
-
-        //여기 업데이트 항목, 수정값
-        System.out.println("test = " + update_list);
-        System.out.println("test = " + update_name);
 
         String ssn = "";
         ssn = dto.getCheck().get(0);
@@ -285,8 +268,6 @@ public class HomeController {
         Statement stmt = con.createStatement();
         String SQL = "UPDATE "+table+" SET "+value+" WHERE Ssn = \""+ssn+"\";";
 
-        System.out.println(SQL);
-
         stmt.executeUpdate(SQL);
 
         home(model);
@@ -307,12 +288,8 @@ public class HomeController {
 
     @PostMapping("/delete")
     public String delete(Model model, @ModelAttribute("delete")DeleteDto deleteDto) throws SQLException {
-        //여기 체크된 애들 ssn 들어있음!
-        System.out.println(deleteDto.getCheck());
-
         ArrayList<String> ssn = new ArrayList<String>();;
         ssn = deleteDto.getCheck();
-
 
         Connection con;
         con = DriverManager.getConnection(url, dbaccount, pwd);
@@ -351,7 +328,6 @@ public class HomeController {
             }
         }
 
-
         model.addAttribute("employees", emps);
         model.addAttribute("employee_num", emps.size());
 
@@ -368,9 +344,6 @@ public class HomeController {
 
     @PostMapping("/insert")
     public String insert(Model model, @ModelAttribute("insert")InsertDto insertDto) throws SQLException{
-        //여기 추가한 친구 정보들 들어있음!
-        System.out.println(insertDto.toString());
-
         Connection con;
         con = DriverManager.getConnection(url, dbaccount, pwd);
 
@@ -380,8 +353,6 @@ public class HomeController {
         String SQL = "INSERT INTO EMPLOYEE VALUES " + value + ";";
         Statement stmt = con.createStatement();
         stmt.executeUpdate(SQL);
-
-
 
         con.close();
         stmt.close();

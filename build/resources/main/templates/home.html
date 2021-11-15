@@ -53,6 +53,15 @@
             frm.submit();
             return true;
         }
+        function submit4(frm) {
+            let result = confirm("필터링 조건에 ssn이 포함되어 있습니까?");
+            if(result) {
+                frm.action = '/delete';
+                frm.submit();
+                return true;
+            }
+            else return false;
+        }
     </script>
 </head>
 <body>
@@ -83,24 +92,25 @@
     </p>
 </form>
 <form role="form" action="/delete" name="delete" method="post">
-<table class="tg">
-    <thead>
-    <tr>
-    <tr>
-        <th class="tg-0lax">선택</th>
-        <th th:if="${b_name == true}" class="tg-0lax">NAME</th>
-        <th th:if="${b_ssn == true}" class="tg-0lax">SSN</th>
-        <th th:if="${b_bdate == true}" class="tg-0lax">BDATE</th>
-        <th th:if="${b_address == true}" class="tg-0lax">ADDRESS</th>
-        <th th:if="${b_sex == true}" class="tg-0lax">SEX</th>
-        <th th:if="${b_salary == true}" class="tg-0lax">SALARY</th>
-        <th th:if="${b_supervisor_name == true}" class="tg-0lax">SUPERVISOR</th>
-        <th th:if="${b_department_name == true}" class="tg-0lax">DEPARTMENT</th>
-    </tr>
-    </thead>
-    <tbody>
+    <table class="tg">
+        <thead>
+        <tr>
+        <tr>
+            <th class="tg-0lax">선택</th>
+            <th th:if="${b_name == true}" class="tg-0lax">NAME</th>
+            <th th:if="${b_ssn == true}" class="tg-0lax">SSN</th>
+            <th th:if="${b_bdate == true}" class="tg-0lax">BDATE</th>
+            <th th:if="${b_address == true}" class="tg-0lax">ADDRESS</th>
+            <th th:if="${b_sex == true}" class="tg-0lax">SEX</th>
+            <th th:if="${b_salary == true}" class="tg-0lax">SALARY</th>
+            <th th:if="${b_supervisor_name == true}" class="tg-0lax">SUPERVISOR</th>
+            <th th:if="${b_department_name == true}" class="tg-0lax">DEPARTMENT</th>
+        </tr>
+        </thead>
+        <tbody>
         <tr th:each="employee : ${employees}" th:name="delete" th:value="delete">
-            <td class="tg-0lax"><input type="checkbox" name="check" th:value="${employee.ssn}"></td>
+            <td th:if="${employee.containsKey('ssn') == true}" class="tg-0lax"><input type="checkbox" name="check" th:value="${employee.ssn}"></td>
+            <td th:unless="${employee.containsKey('ssn') == true}" class="tg-0lax"><input type="checkbox" name="check" th:value="alarm"></td>
             <td th:if="${employee.containsKey('name') == true}" th:text="${employee.name}" th:name="name" th:value="${employee.name}" class="tg-0lax"></td>
             <td th:if="${employee.containsKey('ssn') == true}" th:text="${employee.ssn}" th:name="ssn" th:value="ssn" class="tg-0lax" value="ssn" id="ssn"></td>
             <td th:if="${employee.containsKey('bdate') == true}" th:text="${employee.bdate}" th:name="bdate" th:value="${employee.bdate}" class="tg-0lax"></td>
@@ -110,24 +120,24 @@
             <td th:if="${employee.containsKey('supervisor_name') == true}" th:text="${employee.supervisor_name}" th:name="supervisor_name" th:value="${employee.supervisor_name}" class="tg-0lax"></td>
             <td th:if="${employee.containsKey('department_name') == true}" th:text="${employee.department_name}" th:name="department_name" th:value="${employee.department_name}" class="tg-0lax"></td>
         </tr>
-    </tbody>
-</table>
-<p>
-인원 수 : <span th:text="${employee_num}"></span>
+        </tbody>
+    </table>
+    <p>
+        인원 수 : <span th:text="${employee_num}"></span>
 
 
-    <select name="update_list">
-        <option value="option" selected>선택</option>
-        <option value="address">주소</option>
-        <option value="sex">성별</option>
-        <option value="salary">연봉</option>
-        <option value="super_ssn">상사</option>
-        <option value="dname">부서명</option>
-    </select>
-    <input type="text" id="name" name="update_name">
-    <button style="background-color: lightskyblue" onclick='return submit2(this.form);'>수정</button>
-    <button style="background-color: lightcyan" onclick='return submit3(this.form);'>추가</button>
-    <button style="background-color: palevioletred">선택한 데이터 삭제</button>
+        <select name="update_list">
+            <option value="option" selected>선택</option>
+            <option value="address">주소</option>
+            <option value="sex">성별</option>
+            <option value="salary">연봉</option>
+            <option value="super_ssn">상사</option>
+            <option value="dname">부서명</option>
+        </select>
+        <input type="text" id="name" name="update_name">
+        <button style="background-color: lightskyblue" onclick='return submit2(this.form);'>수정</button>
+        <button style="background-color: lightcyan" onclick='return submit3(this.form);'>추가</button>
+        <button style="background-color: palevioletred" onclick='return submit4(this.form);'>선택한 데이터 삭제</button>
 </form>
 
 </p>
