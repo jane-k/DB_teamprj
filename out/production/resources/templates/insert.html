@@ -58,5 +58,21 @@
   <br/>
   <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->
+<script>
+  function checkForm() {
+    let minit = document.getElementById("minit");
+    console.log(minit.value);
+    if (minit.value.length !== 1) {
+      window.alert("중간 글자는 한 글자여야 합니다.");
+      return false;
+    }
+    let ssn = document.getElementById("ssn");
+    if(ssn.value.length !== 9){
+      window.alert("ssn는 9자리 숫자여야 합니다.");
+      return false;
+    }
+    return true;
+  }
+</script>
 </body>
 </html>

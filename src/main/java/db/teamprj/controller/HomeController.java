@@ -329,16 +329,16 @@ public class HomeController {
             }
         }
 
-        String stmt = "DELETE from EMPLOYEE WHERE Ssn = ?";
-        PreparedStatement p = con.prepareStatement(stmt);
-
-        p.clearParameters();
 
         for(int i = 0; i < ssn.size(); i++){
-            p.setString(i + 1, ssn.get(i));
+            String stmt = "DELETE from EMPLOYEE WHERE Ssn = ?";
+            PreparedStatement p = con.prepareStatement(stmt);
+
+            p.clearParameters();
+            p.setString(1, ssn.get(i));
+            p.executeUpdate();
         }
 
-        p.executeUpdate();
 
         for (String s : ssn) {
             //해당 ssn 삭제하기
